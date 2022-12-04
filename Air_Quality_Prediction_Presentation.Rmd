@@ -1,0 +1,153 @@
+---
+title: "Air Quality Prediction"
+author: "SMK"
+date: "12/4/2022"
+output: ioslides_presentation
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Synopsis
+
+<font size="4">
+
+This presentation is created for the final Course Project submission of Developing Data Products Course. As a part of this project I have developed a Web App for Air Quality Prediction using Shiny. 
+
+The UI of the Web App contains 3 slider inputs for getting values of Temperature, Solar Radiation and Wind. 
+
+The Server side coding includes building three Linear Regression data models based on one of the input parameters. Each individual model performs linear regression to find the relationship of Ozone with either Temperature, Solar Radiation or Wind Speed. Once the models are built, these are used to predict the Ozone value for the values selected by users on slider inputs. The results of prediction are returned to the UI. The server side coding also includes plots for showing relationship between individual input parameters (predictor) and Ozone (target).
+
+The results of predictions based on the slider input and and plots are displayed on the UI at appropriate tabs. 
+
+</font>
+
+## Datasets Used
+
+<font size="4">
+
+This shiny Web App is using the data from built-in dataset called 'airquality'. This dataset includes daily air quality measurements in New York, May to September 1973.A data frame has 153 observations.
+
+The details of this dataset are as follows:
+
+- Ozone: Mean ozone in parts per billion from 1300 to 1500 hours at Roosevelt Island
+- Temp: Maximum daily temperature in degrees Fahrenheit at La Guardia Airport.
+- Solar.R: Solar radiation in Langleys in the frequency band 4000--7700 Angstroms from 0800 to 1200 hours at Central Park
+- Wind: Average wind speed in miles per hour at 0700 and 1000 hours at LaGuardia Airport
+
+```{r cars, echo = TRUE}
+head(airquality)
+```
+
+</font>
+
+## Web App Workflow
+
+<font size="4">
+
++ Left-hand top section of this Web App contains 3 input sliders. 
++ 1st slider can be used for choosing a Temperature. The temperature is in degrees Fahrenheit.
++ 2nd slider is for choosing a Solar Radiation. The solar radiation is represented in Langleys.
++ 3rd slider can be used for choosing a Wind Speed. The wind speed is in miles per hour.
++ All above 3 input parameters namely Temperature, Solar Radiation and Wind Speed are called as predictors.
++ The Ozone value is the target. The Ozone is recorded in terms of parts per billion.
++ The values from these input parameters are fed into three separate Linear Regression models.
++ One of the model is used to establish the relationship between Temperature (input variable) and Ozone (target variable). The model is then run on the user's selection received from Temperature slider input to predict the new Ozone value based on the new Temperature value selected. 
+
+</font>
+
+## Web App Workflow - continued
+
+<font size="4">
+
++ Another model is used to identify the relationship between Solar Radiation (input variable) and Ozone (target variable). This model is then run on the user's selection received from Solar Radiation slider input to predict the new Ozone value based on the new Solar Radiation value selected. 
++ The remaining third model is used to establish the relationship between Wind Speed (input variable) and Ozone (target variable). This model is then run on the user's selection received from Wind slider input to predict the new Ozone value based on the new Wind Speed selected. 
++ The new predicted values are then displayed on the right-hand side on the UI in appropriate tabs. 
++ The tabs also shows the relationships between the input or predictor variables and the target variable with the help of interactive plots created using plotly. 
++ These plots can be used identify the relationships between the Ozone with the corresponding input variable very easily.
+
+</font>
+
+## UI: Slider Input
+
+<font size="4">
+
+The input section consists of a sidebar with three slider inputs. These sliders can be used by users to choose Temperature, Solar Radiation and Wind Speed for predicting Ozone value.
+
+</font>
+
+```{r, echo = TRUE, eval=FALSE}
+sliderInput("slider_temp",
+  "Choose Temperature:",
+  min = min(airquality[complete.cases(airquality),]$Temp) - 10,
+  max = max(airquality[complete.cases(airquality),]$Temp) + 10,
+  value = 65),
+sliderInput("slider_solar",
+  "Choose Solar Radiation:",
+  min = min(airquality[complete.cases(airquality),]$Solar.R) - 20,
+  max = max(airquality[complete.cases(airquality),]$Solar.R) + 20,
+  value = 100),
+sliderInput("slider_wind",
+  "Choose Wind Speed:",
+  min = min(airquality[complete.cases(airquality),]$Wind) - 1,
+  max = max(airquality[complete.cases(airquality),]$Wind) + 1,
+  value = 5.5),
+),
+```
+</font>
+
+## Server: Data Modeling using Linear Regression
+
+<font size="4">
+
+Code for building a data model 
+
+```{r, echo = TRUE, eval=FALSE}
+mdl1 <- lm(Ozone ~ Temp, data=airquality)
+mdl2 <- lm(Ozone ~ Solar.R, data=airquality)
+mdl3 <- lm(Ozone ~ Wind, data=airquality)
+```
+
+Code for running predictions on the input data
+
+```{r, echo = TRUE, eval=FALSE}
+temperature <- input$slider_temp
+predict(mdl1, newdata=data.frame(Temp = temperature))
+solar_rad <- input$slider_solar
+predict(mdl2, newdata=data.frame(Solar.R = solar_rad))
+wnd <- input$slider_wind
+predict(mdl3, newdata=data.frame(Wind = wnd))
+```
+
+</font>
+
+## Observations
+
+<font size="4">
+
++ The built-in dataset contains only 153 observations. 
++ Once the relationship between these variables is established using the Linear Regression Model, these models can be used to determine the values of Ozone for the unknown inputs
++ There exists a negative correlation between 'Ozone' and 'Temperature'. Hence once the value of Wind Speed increases, Ozone increases and vice-versa. 
+There exists a negative correlation between 'Ozone' and 'Solar Radiation'. Hence once the value of Wind Speed increases, Ozone increases and vice-versa. 
++ There exists a negative correlation between 'Ozone' and 'Wind Speed'. Hence once the value of Wind Speed increases, Ozone decreases and vice-versa. 
+
+</font>
+
+## Appendix 
+
+<font size="4">
+
+- Shiny Web App Link
+
+
+- Github Code Link
+
+https://github.com/siddhimk/Coursera_Developing_Data_Products
+
+- Link for the Details of Course Project
+
+https://www.coursera.org/learn/data-products/peer/tMYrn/course-project-shiny-application-and-reproducible-pitch
+
+</font>
