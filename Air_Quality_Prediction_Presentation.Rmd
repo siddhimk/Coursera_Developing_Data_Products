@@ -10,7 +10,7 @@ output: ioslides_presentation
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-## Synopsis
+## Summary
 
 <font size="4">
 
@@ -129,8 +129,8 @@ predict(mdl3, newdata=data.frame(Wind = wnd))
 
 + The built-in dataset contains only 153 observations. 
 + Once the relationship between these variables is established using the Linear Regression Model, these models can be used to determine the values of Ozone for the unknown inputs
-+ There exists a negative correlation between 'Ozone' and 'Temperature'. Hence once the value of Wind Speed increases, Ozone increases and vice-versa. 
-There exists a negative correlation between 'Ozone' and 'Solar Radiation'. Hence once the value of Wind Speed increases, Ozone increases and vice-versa. 
++ There exists a positive correlation between 'Ozone' and 'Temperature'. Hence once the value of Wind Speed increases, Ozone increases and when the Temperature decreases, Ozone value decreases.
++ There exists a positive correlation between 'Ozone' and 'Solar Radiation'. Hence once the value of Wind Speed increases, Ozone increases and vice-versa. 
 + There exists a negative correlation between 'Ozone' and 'Wind Speed'. Hence once the value of Wind Speed increases, Ozone decreases and vice-versa. 
 
 </font>
@@ -139,12 +139,18 @@ There exists a negative correlation between 'Ozone' and 'Solar Radiation'. Hence
 
 <font size="4">
 
+Below are the links for quick reference: 
+
+
 - Shiny Web App Link
+
+https://siddhimk.shinyapps.io/Air_Quality_Prediction/
 
 
 - Github Code Link
 
 https://github.com/siddhimk/Coursera_Developing_Data_Products
+
 
 - Link for the Details of Course Project
 
